@@ -56,6 +56,9 @@ if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
   ament_add_gtest(test_pose_estimator test/test_pose_estimator.cpp)
   target_link_libraries(test_pose_estimator pose_estimator_lib Eigen3::Eigen ${OpenCV_LIBS})
+
+  find_package(launch_testing_ament_cmake REQUIRED)
+  add_launch_test(test/test_localization_pipeline.py TIMEOUT 90)
 endif()
 
 ament_export_include_directories(include)

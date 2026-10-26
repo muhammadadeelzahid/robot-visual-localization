@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'generate_apriltag_textures = apriltag_localization_tools.generate_apriltag_textures:main',
             'calibrate_camera = apriltag_localization_tools.calibrate_camera:main',
+            'localization_error_analysis = apriltag_localization_tools.localization_error_analysis:main',
         ],
     },
 )

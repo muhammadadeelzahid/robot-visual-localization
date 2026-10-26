@@ -10,6 +10,14 @@
       <background>0.8 0.8 0.8 1</background>
     </scene>
 
+    <!-- Ground-truth model states for accuracy analysis. -->
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/gazebo</namespace>
+      </ros>
+      <update_rate>50.0</update_rate>
+    </plugin>
+
     <!-- Room walls. Light-coloured so the tags keep a clean quiet zone. -->
     <model name="walls">
       <static>true</static>

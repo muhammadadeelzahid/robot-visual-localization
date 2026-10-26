@@ -29,10 +29,22 @@ source install/setup.bash
 
 ## Run
 
+Generate the simulated tag models once after building:
+
+```bash
+./scripts/generate_sim_assets.sh
+```
+
 Simulation:
 
 ```bash
 ros2 launch apriltag_localization_bringup sim.launch.py
+```
+
+Drive the robot from a second terminal:
+
+```bash
+./scripts/drive.sh
 ```
 
 Physical robot:
@@ -57,6 +69,23 @@ ros2 run apriltag_localization_tools calibrate_camera \
 Tag identifiers, sizes and world poses are defined in
 `apriltag_localization_bringup/config/tags.yaml`. The same file drives the estimator,
 the RViz markers and the simulated world.
+
+## Accuracy analysis
+
+With the simulation running, record estimates against ground truth and generate a
+trajectory plot and error report:
+
+```bash
+ros2 run apriltag_localization_tools localization_error_analysis --ros-args -p use_sim_time:=true
+# drive the robot, then Ctrl-C to write analysis_output/trajectory.png and print ATE
+```
+
+## Tests
+
+```bash
+colcon test
+colcon test-result --verbose
+```
 
 ## License
 
