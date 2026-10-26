@@ -4,8 +4,8 @@
 
 #include "apriltag_detector/apriltag_detector.hpp"
 
-using apriltag_detector::ApriltagDetector;
-using apriltag_detector::DetectorConfig;
+using tag_detector::ApriltagDetector;
+using tag_detector::DetectorConfig;
 
 TEST(ApriltagDetector, ConstructsForKnownFamily)
 {

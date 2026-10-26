@@ -14,7 +14,7 @@
 struct apriltag_detector;
 struct apriltag_family;
 
-namespace apriltag_detector
+namespace tag_detector
 {
 
 /// Configuration for the underlying AprilTag detector.
@@ -52,6 +52,6 @@ private:
   ::apriltag_family * family_{nullptr};
 };
 
-}  // namespace apriltag_detector
+}  // namespace tag_detector
 
 #endif  // APRILTAG_DETECTOR__APRILTAG_DETECTOR_HPP_

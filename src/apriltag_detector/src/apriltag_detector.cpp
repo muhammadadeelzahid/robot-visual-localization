@@ -13,7 +13,7 @@ extern "C" {
 #include <tagCircle21h7.h>
 }
 
-namespace apriltag_detector
+namespace tag_detector
 {
 
 namespace
@@ -116,4 +116,4 @@ std::vector<Detection> ApriltagDetector::detect(const cv::Mat & gray) const
   return detections;
 }
 
-}  // namespace apriltag_detector
+}  // namespace tag_detector

@@ -14,7 +14,7 @@
 
 #include "apriltag_detector/apriltag_detector.hpp"
 
-namespace apriltag_detector
+namespace tag_detector
 {
 
 class DetectorNode : public rclcpp::Node
@@ -128,13 +128,13 @@ private:
   rclcpp::Publisher<apriltag_msgs::msg::AprilTagDetectionArray>::SharedPtr detections_pub_;
 };
 
-}  // namespace apriltag_detector
+}  // namespace tag_detector
 
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
-  auto node = std::make_shared<apriltag_detector::DetectorNode>(options);
+  auto node = std::make_shared<tag_detector::DetectorNode>(options);
   node->setup_subscriptions();
   rclcpp::spin(node);
   rclcpp::shutdown();

@@ -6,7 +6,7 @@
 
 #include <opencv2/core.hpp>
 
-namespace apriltag_detector
+namespace tag_detector
 {
 
 /// A single AprilTag detection in image space.
@@ -26,6 +26,6 @@ struct Detection
   std::array<cv::Point2d, 4> corners;
 };
 
-}  // namespace apriltag_detector
+}  // namespace tag_detector
 
 #endif  // APRILTAG_DETECTOR__DETECTION_HPP_
