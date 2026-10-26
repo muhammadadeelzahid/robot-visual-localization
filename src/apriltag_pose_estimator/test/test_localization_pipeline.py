@@ -109,8 +109,9 @@ class TestPipeline(unittest.TestCase):
         detection = AprilTagDetection()
         detection.id = 0
         detection.family = 'tag36h11'
-        for u, v in projected_corners():
-            detection.corners.append(_point(u, v))
+        corners = projected_corners()
+        for i, (u, v) in enumerate(corners):
+            detection.corners[i] = _point(u, v)
         detection.centre = _point(CX, CY)
         det_array.detections.append(detection)
 

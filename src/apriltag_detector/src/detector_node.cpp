@@ -7,6 +7,7 @@
 #include <image_transport/image_transport.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/image_encodings.hpp>
 
 #include <apriltag_msgs/msg/april_tag_detection.hpp>
 #include <apriltag_msgs/msg/april_tag_detection_array.hpp>
