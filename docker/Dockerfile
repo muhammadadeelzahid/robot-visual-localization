@@ -32,9 +32,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-humble-teleop-twist-keyboard \
     ros-humble-usb-cam \
     ros-humble-realsense2-camera \
+    python3-opencv \
+    python3-numpy \
+    python3-matplotlib \
+    python3-yaml \
     && rm -rf /var/lib/apt/lists/*
-
-RUN python3 -m pip install --no-cache-dir numpy opencv-python matplotlib pyyaml
 
 WORKDIR /ws
 COPY docker/entrypoint.sh /entrypoint.sh
