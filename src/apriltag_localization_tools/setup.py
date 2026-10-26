@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'generate_apriltag_textures = apriltag_localization_tools.generate_apriltag_textures:main',
+            'calibrate_camera = apriltag_localization_tools.calibrate_camera:main',
         ],
     },
 )
