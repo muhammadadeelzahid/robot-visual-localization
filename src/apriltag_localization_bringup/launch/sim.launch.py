@@ -21,7 +21,10 @@ def generate_launch_description():
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(sim_share, 'launch', 'gazebo.launch.py')),
-        launch_arguments={'use_sim_time': 'true'}.items(),
+        launch_arguments={
+            'use_sim_time': 'true',
+            'gui': LaunchConfiguration('gui'),
+        }.items(),
     )
 
     localization = IncludeLaunchDescription(
@@ -47,6 +50,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('rviz', default_value='true'),
+        DeclareLaunchArgument('gui', default_value='true',
+                              description='start the Gazebo client'),
         gazebo,
         localization,
         rviz,
