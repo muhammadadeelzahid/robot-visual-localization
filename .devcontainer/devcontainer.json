@@ -1,0 +1,17 @@
+{
+  "name": "robot-visual-localization",
+  "dockerComposeFile": "../docker/docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/ws",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "ms-iot.vscode-ros",
+        "twxs.cmake"
+      ]
+    }
+  },
+  "remoteUser": "root"
+}
