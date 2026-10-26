@@ -1,8 +1,8 @@
-"""Headless integration test for the pose estimator node.
+"""Integration test for the pose estimator node.
 
 Feeds a synthetic perspective tag view together with camera intrinsics and a
 static camera->base transform, then checks the published map-frame pose against
-the known camera pose. No simulator is required.
+the known camera pose.
 """
 
 import os

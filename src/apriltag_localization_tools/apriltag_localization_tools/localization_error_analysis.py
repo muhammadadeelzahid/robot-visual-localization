@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Compare localization estimates against Gazebo ground truth.
+"""Compare localization estimates against ground truth.
 
-Records the EKF output and the raw AprilTag pose alongside the simulator's true
-robot pose, then on shutdown reports absolute trajectory error and writes plots.
+Records the EKF output and the raw AprilTag pose alongside the reference robot
+pose, then on shutdown reports absolute trajectory error and writes plots.
 """
 
 import argparse
