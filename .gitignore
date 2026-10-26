@@ -1,0 +1,21 @@
+# Colcon / ament
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+
+# Editor / OS
+.vscode/
+*.swp
+.DS_Store
+
+# Calibration output / recordings (keep examples under version control explicitly)
+*.bag
+rosbag2_*/
+calibration_output/
