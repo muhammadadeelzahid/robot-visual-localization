@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-humble-camera-calibration \
     ros-humble-vision-msgs \
     ros-humble-apriltag \
+    ros-humble-apriltag-msgs \
     ros-humble-tf2-ros \
     ros-humble-tf2-eigen \
     ros-humble-tf2-geometry-msgs \
