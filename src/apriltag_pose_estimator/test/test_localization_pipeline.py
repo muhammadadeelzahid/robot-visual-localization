@@ -1,8 +1,8 @@
 """Headless integration test for the pose estimator node.
 
-Feeds a synthetic fronto-parallel tag detection together with camera intrinsics
-and a static camera->base transform, then checks the published map-frame pose.
-No simulator is required.
+Feeds a synthetic perspective tag view together with camera intrinsics and a
+static camera->base transform, then checks the published map-frame pose against
+the known camera pose. No simulator is required.
 """
 
 import os
@@ -13,6 +13,7 @@ import launch
 import launch_ros.actions
 import launch_testing
 import launch_testing.actions
+import numpy as np
 import pytest
 
 import rclpy
@@ -27,19 +28,78 @@ FIXTURE = os.path.join(os.path.dirname(__file__), 'fixtures', 'single_tag.yaml')
 FX = FY = 554.254691
 CX, CY = 320.0, 240.0
 TAG_SIZE = 0.4
-TAG_Z = 2.0
+
+# Tag pose in the map frame (matches the fixture): identity rotation at (0, 0, 2).
+T_MAP_TAG = np.eye(4)
+T_MAP_TAG[:3, 3] = [0.0, 0.0, 2.0]
 
 
-def projected_corners():
-    """AprilTag-order corners of the fixture tag, fronto-parallel at z = TAG_Z."""
+def rot_x(a):
+    c, s = np.cos(a), np.sin(a)
+    return np.array([[1, 0, 0], [0, c, -s], [0, s, c]])
+
+
+def rot_y(a):
+    c, s = np.cos(a), np.sin(a)
+    return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
+
+
+def tag_cam_transform():
+    """A clearly non-fronto-parallel tag pose in the camera optical frame."""
+    T = np.eye(4)
+    T[:3, :3] = rot_y(0.25) @ rot_x(0.15)
+    T[:3, 3] = [0.1, 0.05, 1.5]
+    return T
+
+
+def quat_from_matrix(r):
+    t = np.trace(r)
+    if t > 0:
+        s = np.sqrt(t + 1.0) * 2
+        w = 0.25 * s
+        x = (r[2, 1] - r[1, 2]) / s
+        y = (r[0, 2] - r[2, 0]) / s
+        z = (r[1, 0] - r[0, 1]) / s
+    else:
+        i = int(np.argmax([r[0, 0], r[1, 1], r[2, 2]]))
+        if i == 0:
+            s = np.sqrt(1.0 + r[0, 0] - r[1, 1] - r[2, 2]) * 2
+            w = (r[2, 1] - r[1, 2]) / s
+            x = 0.25 * s
+            y = (r[0, 1] + r[1, 0]) / s
+            z = (r[0, 2] + r[2, 0]) / s
+        elif i == 1:
+            s = np.sqrt(1.0 + r[1, 1] - r[0, 0] - r[2, 2]) * 2
+            w = (r[0, 2] - r[2, 0]) / s
+            x = (r[0, 1] + r[1, 0]) / s
+            y = 0.25 * s
+            z = (r[1, 2] + r[2, 1]) / s
+        else:
+            s = np.sqrt(1.0 + r[2, 2] - r[0, 0] - r[1, 1]) * 2
+            w = (r[1, 0] - r[0, 1]) / s
+            x = (r[0, 2] + r[2, 0]) / s
+            y = (r[1, 2] + r[2, 1]) / s
+            z = 0.25 * s
+    return np.array([x, y, z, w])
+
+
+def tag_object_points():
     h = TAG_SIZE / 2.0
-    object_points = [(-h, -h), (h, -h), (h, h), (-h, h)]  # BL, BR, TR, TL
+    # AprilTag order: BL, BR, TR, TL in the tag frame.
+    return np.array([[-h, -h, 0], [h, -h, 0], [h, h, 0], [-h, h, 0]], dtype=float)
+
+
+def projected_corners(t_cam_tag):
+    pts = tag_object_points()
+    cam = (t_cam_tag[:3, :3] @ pts.T).T + t_cam_tag[:3, 3]
     corners = []
-    for x, y in object_points:
-        u = FX * x / TAG_Z + CX
-        v = FY * y / TAG_Z + CY
-        corners.append((u, v))
+    for x, y, z in cam:
+        corners.append((FX * x / z + CX, FY * y / z + CY))
     return corners
+
+
+def expected_camera_pose(t_cam_tag):
+    return T_MAP_TAG @ np.linalg.inv(t_cam_tag)
 
 
 @pytest.mark.launch_test
@@ -85,7 +145,7 @@ class TestPipeline(unittest.TestCase):
         cls.node.destroy_node()
         rclpy.shutdown()
 
-    def test_pose_published(self):
+    def test_pose_matches_known_camera_pose(self):
         received = []
         self.node.create_subscription(
             PoseWithCovarianceStamped, '/localization/pose',
@@ -95,6 +155,11 @@ class TestPipeline(unittest.TestCase):
             CameraInfo, '/camera_info', qos_profile_sensor_data)
         det_pub = self.node.create_publisher(
             AprilTagDetectionArray, '/detections', qos_profile_sensor_data)
+
+        t_cam_tag = tag_cam_transform()
+        expected = expected_camera_pose(t_cam_tag)
+        exp_t = expected[:3, 3]
+        exp_q = quat_from_matrix(expected[:3, :3])
 
         info = CameraInfo()
         info.header.frame_id = 'camera_optical_frame'
@@ -109,8 +174,7 @@ class TestPipeline(unittest.TestCase):
         detection = AprilTagDetection()
         detection.id = 0
         detection.family = 'tag36h11'
-        corners = projected_corners()
-        for i, (u, v) in enumerate(corners):
+        for i, (u, v) in enumerate(projected_corners(t_cam_tag)):
             detection.corners[i] = _point(u, v)
         detection.centre = _point(CX, CY)
         det_array.detections.append(detection)
@@ -126,10 +190,12 @@ class TestPipeline(unittest.TestCase):
 
         self.assertTrue(received, 'no pose was published')
         pose = received[-1].pose.pose
-        self.assertAlmostEqual(pose.position.x, 0.0, delta=0.05)
-        self.assertAlmostEqual(pose.position.y, 0.0, delta=0.05)
-        self.assertAlmostEqual(pose.position.z, 0.0, delta=0.05)
-        self.assertAlmostEqual(abs(pose.orientation.w), 1.0, delta=0.02)
+        got_t = np.array([pose.position.x, pose.position.y, pose.position.z])
+        got_q = np.array([pose.orientation.x, pose.orientation.y,
+                          pose.orientation.z, pose.orientation.w])
+
+        self.assertLess(np.linalg.norm(got_t - exp_t), 0.02)
+        self.assertGreater(abs(float(np.dot(got_q, exp_q))), 0.999)
 
 
 def _point(x, y):

@@ -12,12 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install build tooling
         shell: bash
         run: |
           apt-get update
-          rosdep update
-          rosdep install --from-paths src --ignore-src -r -y
+          apt-get install -y --no-install-recommends \
+            build-essential cmake git \
+            python3-colcon-common-extensions \
+            python3-rosdep
+
+      - name: Resolve dependencies
+        shell: bash
+        run: |
+          rosdep update --rosdistro humble
+          rosdep install --from-paths src --ignore-src -r -y --rosdistro humble
 
       - name: Build
         shell: bash

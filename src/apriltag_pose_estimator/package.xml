@@ -28,6 +28,7 @@
   <test_depend>launch_testing</test_depend>
   <test_depend>launch_ros</test_depend>
   <test_depend>python3-pytest</test_depend>
+  <test_depend>python3-numpy</test_depend>
   <test_depend>tf2_ros</test_depend>
 
   <export>
