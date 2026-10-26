@@ -41,10 +41,16 @@ Simulation:
 ros2 launch apriltag_localization_bringup sim.launch.py
 ```
 
-Drive the robot from a second terminal:
+Drive the robot manually from a second terminal:
 
 ```bash
 ./scripts/drive.sh
+```
+
+Autonomous navigation (Nav2 following a waypoint route, localizing by AprilTags):
+
+```bash
+ros2 launch apriltag_localization_bringup nav.launch.py
 ```
 
 Physical robot:
