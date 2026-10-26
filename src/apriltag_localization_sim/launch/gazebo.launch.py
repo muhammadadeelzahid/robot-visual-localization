@@ -75,7 +75,7 @@ def generate_launch_description():
             'world',
             default_value=PathJoinSubstitution(
                 [FindPackageShare('apriltag_localization_sim'),
-                 'worlds', 'apriltag_room.world'])),
+                 'worlds', 'warehouse.world'])),
         DeclareLaunchArgument('x', default_value='0.0'),
         DeclareLaunchArgument('y', default_value='0.0'),
         DeclareLaunchArgument('z', default_value='0.1'),

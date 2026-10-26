@@ -3,7 +3,7 @@ project(apriltag_localization_sim)
 
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY urdf worlds launch models
+install(DIRECTORY urdf worlds launch models maps
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()
