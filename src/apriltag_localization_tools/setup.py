@@ -24,6 +24,7 @@ setup(
             'generate_warehouse = apriltag_localization_tools.generate_warehouse:main',
             'calibrate_camera = apriltag_localization_tools.calibrate_camera:main',
             'localization_error_analysis = apriltag_localization_tools.localization_error_analysis:main',
+            'follow_route = apriltag_localization_tools.follow_route:main',
         ],
     },
 )
