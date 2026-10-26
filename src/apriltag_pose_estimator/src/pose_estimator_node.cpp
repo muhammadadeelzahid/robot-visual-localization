@@ -1,3 +1,5 @@
+#include <array>
+#include <cmath>
 #include <memory>
 #include <string>
 #include <vector>
@@ -41,7 +43,15 @@ public:
     cov.base_rot_std = declare_parameter<double>("cov.base_rot_std", cov.base_rot_std);
     cov.pos_px_scale = declare_parameter<double>("cov.pos_px_scale", cov.pos_px_scale);
     cov.rot_px_scale = declare_parameter<double>("cov.rot_px_scale", cov.rot_px_scale);
+    cov.pos_dist_scale = declare_parameter<double>("cov.pos_dist_scale", cov.pos_dist_scale);
+    cov.rot_dist_scale = declare_parameter<double>("cov.rot_dist_scale", cov.rot_dist_scale);
+    cov.single_tag_rot_factor =
+      declare_parameter<double>("cov.single_tag_rot_factor", cov.single_tag_rot_factor);
+    cov.max_reproj_rms = declare_parameter<double>("cov.max_reproj_rms", cov.max_reproj_rms);
     estimator_ = std::make_unique<PoseEstimator>(cov);
+
+    // Reject detections whose image quad is smaller than this (too far / oblique).
+    min_tag_area_px_ = declare_parameter<double>("min_tag_area_px", 400.0);
 
     std::string error;
     if (tag_map_path.empty() || !tag_map_.load_from_yaml(tag_map_path, error)) {
@@ -122,7 +132,13 @@ private:
       for (int k = 0; k < 4; ++k) {
         in.corners[k] = cv::Point2d(d.corners[k].x, d.corners[k].y);
       }
+      if (quad_area(in.corners) < min_tag_area_px_) {
+        continue;  // too far or too oblique to trust
+      }
       inputs.push_back(in);
+    }
+    if (inputs.empty()) {
+      return;
     }
 
     const auto estimate = estimator_->estimate_camera_pose(inputs, tag_map_, intrinsics_);
@@ -206,6 +222,17 @@ private:
     marker_pub_->publish(array);
   }
 
+  static double quad_area(const std::array<cv::Point2d, 4> & c)
+  {
+    double a = 0.0;
+    for (int i = 0; i < 4; ++i) {
+      const auto & p = c[i];
+      const auto & q = c[(i + 1) % 4];
+      a += p.x * q.y - q.x * p.y;
+    }
+    return std::abs(a) * 0.5;
+  }
+
   std::unique_ptr<PoseEstimator> estimator_;
   TagMap tag_map_;
   std::string map_frame_;
@@ -213,6 +240,7 @@ private:
   std::string camera_optical_frame_;
   bool publish_tf_{false};
   bool publish_markers_{true};
+  double min_tag_area_px_{400.0};
 
   CameraIntrinsics intrinsics_;
   bool have_intrinsics_{false};

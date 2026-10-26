@@ -136,9 +136,14 @@ CameraPoseEstimate PoseEstimator::estimate_camera_pose(
       result.valid = false;
       return result;
     }
+    if (single.reproj_rms > cov_.max_reproj_rms) {
+      result.valid = false;
+      return result;
+    }
+    const double range = single.T_cam_tag.translation().norm();
     result.T_map_camera = info->pose_map * single.T_cam_tag.inverse();
     result.reproj_rms = single.reproj_rms;
-    result.covariance = build_covariance(single.reproj_rms, 1);
+    result.covariance = build_covariance(single.reproj_rms, 1, range);
     result.valid = true;
     return result;
   }
@@ -158,19 +163,37 @@ CameraPoseEstimate PoseEstimator::estimate_camera_pose(
   const Eigen::Isometry3d T_camera_map = rtvec_to_isometry(rvec, tvec);
   result.T_map_camera = T_camera_map.inverse();
   result.reproj_rms = reprojection_rms(object_points, image_points, intr, rvec, tvec);
-  result.covariance = build_covariance(result.reproj_rms, result.num_tags);
+  if (result.reproj_rms > cov_.max_reproj_rms) {
+    result.valid = false;
+    return result;
+  }
+
+  double mean_range = 0.0;
+  for (const auto * det : used) {
+    const auto info = map.get(det->id);
+    mean_range += (result.T_map_camera.translation() - info->pose_map.translation()).norm();
+  }
+  mean_range /= static_cast<double>(used.size());
+
+  result.covariance = build_covariance(result.reproj_rms, result.num_tags, mean_range);
   result.valid = true;
   return result;
 }
 
 Eigen::Matrix<double, 6, 6> PoseEstimator::build_covariance(
-  double reproj_rms, int num_tags) const
+  double reproj_rms, int num_tags, double mean_range) const
 {
   const double n = std::max(1, num_tags);
   const double pos_std =
-    (cov_.base_pos_std + cov_.pos_px_scale * reproj_rms) / std::sqrt(n);
-  const double rot_std =
-    (cov_.base_rot_std + cov_.rot_px_scale * reproj_rms) / std::sqrt(n);
+    (cov_.base_pos_std + cov_.pos_px_scale * reproj_rms +
+     cov_.pos_dist_scale * mean_range) / std::sqrt(n);
+  double rot_std =
+    (cov_.base_rot_std + cov_.rot_px_scale * reproj_rms +
+     cov_.rot_dist_scale * mean_range) / std::sqrt(n);
+  // A single planar tag constrains orientation (especially yaw) weakly.
+  if (num_tags <= 1) {
+    rot_std *= cov_.single_tag_rot_factor;
+  }
 
   Eigen::Matrix<double, 6, 6> cov = Eigen::Matrix<double, 6, 6>::Zero();
   const double pos_var = pos_std * pos_std;

@@ -30,10 +30,14 @@ struct DetectionInput
 /// Heuristic mapping from reprojection error and range to a 6-DoF covariance.
 struct CovarianceModel
 {
-  double base_pos_std{0.02};   ///< metres
-  double base_rot_std{0.02};   ///< radians
-  double pos_px_scale{0.01};   ///< metres of std per pixel of reprojection RMS
-  double rot_px_scale{0.01};   ///< radians of std per pixel of reprojection RMS
+  double base_pos_std{0.02};        ///< metres
+  double base_rot_std{0.02};        ///< radians
+  double pos_px_scale{0.01};        ///< metres of std per pixel of reprojection RMS
+  double rot_px_scale{0.02};        ///< radians of std per pixel of reprojection RMS
+  double pos_dist_scale{0.01};      ///< metres of std per metre of range
+  double rot_dist_scale{0.03};      ///< radians of std per metre of range
+  double single_tag_rot_factor{4.0};  ///< extra rotational std when only one tag
+  double max_reproj_rms{4.0};       ///< px; solves worse than this are rejected
 };
 
 /// Pose of a single tag expressed in the camera optical frame.
@@ -78,7 +82,8 @@ public:
   static std::array<cv::Point3d, 4> tag_object_points(double size);
 
 private:
-  Eigen::Matrix<double, 6, 6> build_covariance(double reproj_rms, int num_tags) const;
+  Eigen::Matrix<double, 6, 6> build_covariance(
+    double reproj_rms, int num_tags, double mean_range) const;
 
   CovarianceModel cov_;
 };
