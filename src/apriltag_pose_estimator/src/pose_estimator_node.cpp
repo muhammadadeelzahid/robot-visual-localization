@@ -51,7 +51,7 @@ public:
     estimator_ = std::make_unique<PoseEstimator>(cov);
 
     // Reject detections whose image quad is smaller than this (too far / oblique).
-    min_tag_area_px_ = declare_parameter<double>("min_tag_area_px", 400.0);
+    min_tag_area_px_ = declare_parameter<double>("min_tag_area_px", 300.0);
 
     std::string error;
     if (tag_map_path.empty() || !tag_map_.load_from_yaml(tag_map_path, error)) {

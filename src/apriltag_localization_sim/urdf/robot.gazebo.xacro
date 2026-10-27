@@ -92,7 +92,7 @@
       <always_on>true</always_on>
       <visualize>false</visualize>
       <camera name="camera">
-        <horizontal_fov>1.0471975512</horizontal_fov>
+        <horizontal_fov>1.5707963</horizontal_fov>
         <image>
           <width>640</width>
           <height>480</height>

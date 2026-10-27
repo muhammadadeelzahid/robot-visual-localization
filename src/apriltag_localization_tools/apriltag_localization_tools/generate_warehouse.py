@@ -19,31 +19,49 @@ HALF_X, HALF_Y = 10.0, 7.0          # inner wall half-extents
 WALL_T = 0.2                        # wall thickness
 WALL_H = 2.5
 
-# Static box obstacles: name, centre x, y, size x, y, height.
+# Static box obstacles: name, centre x, y, size x, y, height. Two solid shelf
+# rows leave three clear lanes (central, north, south) plus end lanes; pallets
+# sit in the lanes as obstacles to plan around.
 OBSTACLES = [
-    ('shelf_nw', -3.5, 3.0, 5.0, 1.0, 2.0),
-    ('shelf_ne', 3.5, 3.0, 5.0, 1.0, 2.0),
-    ('shelf_sw', -3.5, -3.0, 5.0, 1.0, 2.0),
-    ('shelf_se', 3.5, -3.0, 5.0, 1.0, 2.0),
-    ('pillar_n', 0.0, 5.2, 0.4, 0.4, 2.5),
-    ('pillar_s', 0.0, -5.2, 0.4, 0.4, 2.5),
-    ('pillar_w', -7.5, 0.0, 0.4, 0.4, 2.5),
-    ('pillar_e', 7.5, 0.0, 0.4, 0.4, 2.5),
-    ('pallet_1', -5.0, 0.0, 0.8, 1.2, 0.6),
-    ('pallet_2', 5.0, 0.8, 1.2, 0.8, 0.6),
+    ('shelf_n', 0.0, 3.0, 14.0, 1.0, 2.0),
+    ('shelf_s', 0.0, -3.0, 14.0, 1.0, 2.0),
+    ('pallet_1', -3.5, 0.0, 0.9, 0.9, 0.8),
+    ('pallet_2', 3.5, 0.8, 0.9, 0.9, 0.8),
+    ('pallet_3', 0.0, 5.3, 0.9, 0.9, 0.8),
+    ('pallet_4', 0.0, -5.3, 0.9, 0.9, 0.8),
 ]
 
+
+def _build_tags():
+    """Dense tags on the shelf faces and perimeter walls, facing the lanes."""
+    tags = []
+    tid = 0
+    size = 0.6
+    z = 0.6
+    off = 0.03
+    xs = [-6, -3, 0, 3, 6]
+    # (face y, outward normal) for each shelf surface bordering a lane.
+    faces = [
+        (2.5, (0, -1, 0)),    # north shelf, central-lane side
+        (3.5, (0, 1, 0)),     # north shelf, north-lane side
+        (-2.5, (0, 1, 0)),    # south shelf, central-lane side
+        (-3.5, (0, -1, 0)),   # south shelf, south-lane side
+    ]
+    for x in xs:
+        for y0, n in faces:
+            tags.append((tid, size, x, y0 + off * n[1], z, n))
+            tid += 1
+    # Perimeter end walls, larger, for the end lanes.
+    for y in [-5.5, 0.0, 5.5]:
+        tags.append((tid, 0.8, 9.8, y, z, (-1, 0, 0)))
+        tid += 1
+        tags.append((tid, 0.8, -9.8, y, z, (1, 0, 0)))
+        tid += 1
+    return tags
+
+
 # Tags: id, size, centre x, y, z, outward normal (into the navigable space).
-TAGS = [
-    (0, 0.4, 9.8, 0.0, 1.0, (-1, 0, 0)),     # +x wall, faces aisle
-    (1, 0.4, -9.8, 0.0, 1.0, (1, 0, 0)),     # -x wall
-    (2, 0.4, 0.0, 6.8, 1.0, (0, -1, 0)),     # +y wall
-    (3, 0.4, 0.0, -6.8, 1.0, (0, 1, 0)),     # -y wall
-    (4, 0.3, 0.0, 4.95, 1.0, (0, -1, 0)),    # pillar_n, faces aisle
-    (5, 0.3, 0.0, -4.95, 1.0, (0, 1, 0)),    # pillar_s
-    (6, 0.3, -7.25, 0.0, 1.0, (1, 0, 0)),    # pillar_w
-    (7, 0.3, 7.25, 0.0, 1.0, (-1, 0, 0)),    # pillar_e
-]
+TAGS = _build_tags()
 
 MAP_RES = 0.05
 MAP_MARGIN = 0.5

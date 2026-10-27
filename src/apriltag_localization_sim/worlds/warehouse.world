@@ -27,112 +27,68 @@
           <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
       </link>
     </model>
-    <model name="shelf_nw">
+    <model name="shelf_n">
       <static>true</static>
-      <pose>-3.5 3.0 1.000 0 0 0</pose>
+      <pose>0.0 3.0 1.000 0 0 0</pose>
       <link name="link">
-        <collision name="c"><geometry><box><size>5.0 1.0 2.0</size></box></geometry></collision>
+        <collision name="c"><geometry><box><size>14.0 1.0 2.0</size></box></geometry></collision>
         <visual name="v">
-          <geometry><box><size>5.0 1.0 2.0</size></box></geometry>
+          <geometry><box><size>14.0 1.0 2.0</size></box></geometry>
           <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
         </visual>
       </link>
     </model>
-    <model name="shelf_ne">
+    <model name="shelf_s">
       <static>true</static>
-      <pose>3.5 3.0 1.000 0 0 0</pose>
+      <pose>0.0 -3.0 1.000 0 0 0</pose>
       <link name="link">
-        <collision name="c"><geometry><box><size>5.0 1.0 2.0</size></box></geometry></collision>
+        <collision name="c"><geometry><box><size>14.0 1.0 2.0</size></box></geometry></collision>
         <visual name="v">
-          <geometry><box><size>5.0 1.0 2.0</size></box></geometry>
-          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="shelf_sw">
-      <static>true</static>
-      <pose>-3.5 -3.0 1.000 0 0 0</pose>
-      <link name="link">
-        <collision name="c"><geometry><box><size>5.0 1.0 2.0</size></box></geometry></collision>
-        <visual name="v">
-          <geometry><box><size>5.0 1.0 2.0</size></box></geometry>
-          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="shelf_se">
-      <static>true</static>
-      <pose>3.5 -3.0 1.000 0 0 0</pose>
-      <link name="link">
-        <collision name="c"><geometry><box><size>5.0 1.0 2.0</size></box></geometry></collision>
-        <visual name="v">
-          <geometry><box><size>5.0 1.0 2.0</size></box></geometry>
-          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="pillar_n">
-      <static>true</static>
-      <pose>0.0 5.2 1.250 0 0 0</pose>
-      <link name="link">
-        <collision name="c"><geometry><box><size>0.4 0.4 2.5</size></box></geometry></collision>
-        <visual name="v">
-          <geometry><box><size>0.4 0.4 2.5</size></box></geometry>
-          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="pillar_s">
-      <static>true</static>
-      <pose>0.0 -5.2 1.250 0 0 0</pose>
-      <link name="link">
-        <collision name="c"><geometry><box><size>0.4 0.4 2.5</size></box></geometry></collision>
-        <visual name="v">
-          <geometry><box><size>0.4 0.4 2.5</size></box></geometry>
-          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="pillar_w">
-      <static>true</static>
-      <pose>-7.5 0.0 1.250 0 0 0</pose>
-      <link name="link">
-        <collision name="c"><geometry><box><size>0.4 0.4 2.5</size></box></geometry></collision>
-        <visual name="v">
-          <geometry><box><size>0.4 0.4 2.5</size></box></geometry>
-          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="pillar_e">
-      <static>true</static>
-      <pose>7.5 0.0 1.250 0 0 0</pose>
-      <link name="link">
-        <collision name="c"><geometry><box><size>0.4 0.4 2.5</size></box></geometry></collision>
-        <visual name="v">
-          <geometry><box><size>0.4 0.4 2.5</size></box></geometry>
+          <geometry><box><size>14.0 1.0 2.0</size></box></geometry>
           <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
         </visual>
       </link>
     </model>
     <model name="pallet_1">
       <static>true</static>
-      <pose>-5.0 0.0 0.300 0 0 0</pose>
+      <pose>-3.5 0.0 0.400 0 0 0</pose>
       <link name="link">
-        <collision name="c"><geometry><box><size>0.8 1.2 0.6</size></box></geometry></collision>
+        <collision name="c"><geometry><box><size>0.9 0.9 0.8</size></box></geometry></collision>
         <visual name="v">
-          <geometry><box><size>0.8 1.2 0.6</size></box></geometry>
+          <geometry><box><size>0.9 0.9 0.8</size></box></geometry>
           <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
         </visual>
       </link>
     </model>
     <model name="pallet_2">
       <static>true</static>
-      <pose>5.0 0.8 0.300 0 0 0</pose>
+      <pose>3.5 0.8 0.400 0 0 0</pose>
       <link name="link">
-        <collision name="c"><geometry><box><size>1.2 0.8 0.6</size></box></geometry></collision>
+        <collision name="c"><geometry><box><size>0.9 0.9 0.8</size></box></geometry></collision>
         <visual name="v">
-          <geometry><box><size>1.2 0.8 0.6</size></box></geometry>
+          <geometry><box><size>0.9 0.9 0.8</size></box></geometry>
+          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="pallet_3">
+      <static>true</static>
+      <pose>0.0 5.3 0.400 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.9 0.9 0.8</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>0.9 0.9 0.8</size></box></geometry>
+          <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="pallet_4">
+      <static>true</static>
+      <pose>0.0 -5.3 0.400 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.9 0.9 0.8</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>0.9 0.9 0.8</size></box></geometry>
           <material><ambient>0.5 0.4 0.3 1</ambient><diffuse>0.6 0.5 0.35 1</diffuse></material>
         </visual>
       </link>
@@ -140,42 +96,132 @@
     <include>
       <name>apriltag_0</name>
       <uri>model://apriltag_0</uri>
-      <pose>9.8 0.0 1.0 1.570796 0.000000 -1.570796</pose>
+      <pose>-6 2.47 0.6 1.570796 0.000000 0.000000</pose>
     </include>
     <include>
       <name>apriltag_1</name>
       <uri>model://apriltag_1</uri>
-      <pose>-9.8 0.0 1.0 1.570796 0.000000 1.570796</pose>
+      <pose>-6 3.53 0.6 1.570796 0.000000 3.141593</pose>
     </include>
     <include>
       <name>apriltag_2</name>
       <uri>model://apriltag_2</uri>
-      <pose>0.0 6.8 1.0 1.570796 0.000000 0.000000</pose>
+      <pose>-6 -2.47 0.6 1.570796 0.000000 3.141593</pose>
     </include>
     <include>
       <name>apriltag_3</name>
       <uri>model://apriltag_3</uri>
-      <pose>0.0 -6.8 1.0 1.570796 0.000000 3.141593</pose>
+      <pose>-6 -3.53 0.6 1.570796 0.000000 0.000000</pose>
     </include>
     <include>
       <name>apriltag_4</name>
       <uri>model://apriltag_4</uri>
-      <pose>0.0 4.95 1.0 1.570796 0.000000 0.000000</pose>
+      <pose>-3 2.47 0.6 1.570796 0.000000 0.000000</pose>
     </include>
     <include>
       <name>apriltag_5</name>
       <uri>model://apriltag_5</uri>
-      <pose>0.0 -4.95 1.0 1.570796 0.000000 3.141593</pose>
+      <pose>-3 3.53 0.6 1.570796 0.000000 3.141593</pose>
     </include>
     <include>
       <name>apriltag_6</name>
       <uri>model://apriltag_6</uri>
-      <pose>-7.25 0.0 1.0 1.570796 0.000000 1.570796</pose>
+      <pose>-3 -2.47 0.6 1.570796 0.000000 3.141593</pose>
     </include>
     <include>
       <name>apriltag_7</name>
       <uri>model://apriltag_7</uri>
-      <pose>7.25 0.0 1.0 1.570796 0.000000 -1.570796</pose>
+      <pose>-3 -3.53 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_8</name>
+      <uri>model://apriltag_8</uri>
+      <pose>0 2.47 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_9</name>
+      <uri>model://apriltag_9</uri>
+      <pose>0 3.53 0.6 1.570796 0.000000 3.141593</pose>
+    </include>
+    <include>
+      <name>apriltag_10</name>
+      <uri>model://apriltag_10</uri>
+      <pose>0 -2.47 0.6 1.570796 0.000000 3.141593</pose>
+    </include>
+    <include>
+      <name>apriltag_11</name>
+      <uri>model://apriltag_11</uri>
+      <pose>0 -3.53 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_12</name>
+      <uri>model://apriltag_12</uri>
+      <pose>3 2.47 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_13</name>
+      <uri>model://apriltag_13</uri>
+      <pose>3 3.53 0.6 1.570796 0.000000 3.141593</pose>
+    </include>
+    <include>
+      <name>apriltag_14</name>
+      <uri>model://apriltag_14</uri>
+      <pose>3 -2.47 0.6 1.570796 0.000000 3.141593</pose>
+    </include>
+    <include>
+      <name>apriltag_15</name>
+      <uri>model://apriltag_15</uri>
+      <pose>3 -3.53 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_16</name>
+      <uri>model://apriltag_16</uri>
+      <pose>6 2.47 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_17</name>
+      <uri>model://apriltag_17</uri>
+      <pose>6 3.53 0.6 1.570796 0.000000 3.141593</pose>
+    </include>
+    <include>
+      <name>apriltag_18</name>
+      <uri>model://apriltag_18</uri>
+      <pose>6 -2.47 0.6 1.570796 0.000000 3.141593</pose>
+    </include>
+    <include>
+      <name>apriltag_19</name>
+      <uri>model://apriltag_19</uri>
+      <pose>6 -3.53 0.6 1.570796 0.000000 0.000000</pose>
+    </include>
+    <include>
+      <name>apriltag_20</name>
+      <uri>model://apriltag_20</uri>
+      <pose>9.8 -5.5 0.6 1.570796 0.000000 -1.570796</pose>
+    </include>
+    <include>
+      <name>apriltag_21</name>
+      <uri>model://apriltag_21</uri>
+      <pose>-9.8 -5.5 0.6 1.570796 0.000000 1.570796</pose>
+    </include>
+    <include>
+      <name>apriltag_22</name>
+      <uri>model://apriltag_22</uri>
+      <pose>9.8 0.0 0.6 1.570796 0.000000 -1.570796</pose>
+    </include>
+    <include>
+      <name>apriltag_23</name>
+      <uri>model://apriltag_23</uri>
+      <pose>-9.8 0.0 0.6 1.570796 0.000000 1.570796</pose>
+    </include>
+    <include>
+      <name>apriltag_24</name>
+      <uri>model://apriltag_24</uri>
+      <pose>9.8 5.5 0.6 1.570796 0.000000 -1.570796</pose>
+    </include>
+    <include>
+      <name>apriltag_25</name>
+      <uri>model://apriltag_25</uri>
+      <pose>-9.8 5.5 0.6 1.570796 0.000000 1.570796</pose>
     </include>
   </world>
 </sdf>
