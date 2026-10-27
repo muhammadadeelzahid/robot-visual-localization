@@ -59,6 +59,17 @@ struct CameraPoseEstimate
   Eigen::Matrix<double, 6, 6> covariance{Eigen::Matrix<double, 6, 6>::Identity()};
 };
 
+/// Axis-aligned limits a valid camera pose must satisfy. Used to reject the
+/// mirror solution of the planar-tag pose ambiguity, which places the camera
+/// outside the physical space.
+struct MapBounds
+{
+  double x_limit{12.0};
+  double y_limit{9.0};
+  double z_min{-1.0};
+  double z_max{3.0};
+};
+
 /// Stateless PnP estimator. All geometry uses the camera optical frame
 /// convention (+x right, +y down, +z forward).
 class PoseEstimator
@@ -66,10 +77,17 @@ class PoseEstimator
 public:
   explicit PoseEstimator(const CovarianceModel & cov = CovarianceModel{});
 
+  void set_bounds(const MapBounds & bounds) { bounds_ = bounds; }
+
   /// Single planar tag via SOLVEPNP_IPPE_SQUARE. `size` is the tag edge length.
   bool estimate_single_tag(
     const std::array<cv::Point2d, 4> & corners, double size,
     const CameraIntrinsics & intr, SingleTagPose & out) const;
+
+  /// All IPPE solutions for a single tag (one or two), best reprojection first.
+  std::vector<SingleTagPose> estimate_single_tag_solutions(
+    const std::array<cv::Point2d, 4> & corners, double size,
+    const CameraIntrinsics & intr) const;
 
   /// Camera pose in the map frame. With one tag this composes the tag's map
   /// pose with the single-tag solution; with several it runs one combined PnP
@@ -85,7 +103,10 @@ private:
   Eigen::Matrix<double, 6, 6> build_covariance(
     double reproj_rms, int num_tags, double mean_range) const;
 
+  bool within_bounds(const Eigen::Vector3d & p) const;
+
   CovarianceModel cov_;
+  MapBounds bounds_;
 };
 
 }  // namespace apriltag_pose_estimator

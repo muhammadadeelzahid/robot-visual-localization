@@ -50,6 +50,13 @@ public:
     cov.max_reproj_rms = declare_parameter<double>("cov.max_reproj_rms", cov.max_reproj_rms);
     estimator_ = std::make_unique<PoseEstimator>(cov);
 
+    MapBounds bounds;
+    bounds.x_limit = declare_parameter<double>("bounds.x_limit", 9.7);
+    bounds.y_limit = declare_parameter<double>("bounds.y_limit", 6.7);
+    bounds.z_min = declare_parameter<double>("bounds.z_min", -1.0);
+    bounds.z_max = declare_parameter<double>("bounds.z_max", 3.0);
+    estimator_->set_bounds(bounds);
+
     // Reject detections whose image quad is smaller than this (too far / oblique).
     min_tag_area_px_ = declare_parameter<double>("min_tag_area_px", 300.0);
 
