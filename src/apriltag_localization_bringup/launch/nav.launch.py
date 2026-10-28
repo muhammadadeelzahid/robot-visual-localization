@@ -25,7 +25,7 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration('rviz')
     gui = LaunchConfiguration('gui')
 
-    # Spawn facing the -x wall tag so the estimator localizes immediately.
+    # Spawn facing the -x wall tag.
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(sim, 'launch', 'gazebo.launch.py')),
         launch_arguments={

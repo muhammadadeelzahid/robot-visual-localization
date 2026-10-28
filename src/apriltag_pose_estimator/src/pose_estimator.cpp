@@ -184,8 +184,7 @@ CameraPoseEstimate PoseEstimator::estimate_camera_pose(
     return result;
   }
 
-  // With two or more tags, try one combined solve. It is well constrained when
-  // the tags are not all coplanar; the bounds check guards the coplanar flip.
+  // Combined solve over all tags, accepted if it stays within the map bounds.
   if (result.num_tags >= 2) {
     cv::Vec3d rvec;
     cv::Vec3d tvec;
@@ -212,8 +211,7 @@ CameraPoseEstimate PoseEstimator::estimate_camera_pose(
     }
   }
 
-  // Single tag, or an out-of-bounds combined solve: disambiguate the largest
-  // (closest) tag by picking the IPPE solution that lands inside the map.
+  // Otherwise use the largest tag, keeping the IPPE solution inside the bounds.
   const DetectionInput * best = nullptr;
   double best_area = -1.0;
   for (const auto * det : used) {
@@ -260,7 +258,6 @@ Eigen::Matrix<double, 6, 6> PoseEstimator::build_covariance(
   double rot_std =
     (cov_.base_rot_std + cov_.rot_px_scale * reproj_rms +
      cov_.rot_dist_scale * mean_range) / std::sqrt(n);
-  // A single planar tag constrains orientation (especially yaw) weakly.
   if (num_tags <= 1) {
     rot_std *= cov_.single_tag_rot_factor;
   }

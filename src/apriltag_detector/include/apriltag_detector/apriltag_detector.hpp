@@ -9,8 +9,7 @@
 
 #include "apriltag_detector/detection.hpp"
 
-// Forward declarations of the AprilTag C types to keep this header free of the
-// C library includes.
+// Forward declarations of the AprilTag C types.
 struct apriltag_detector;
 struct apriltag_family;
 

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""Generate a consistent warehouse scenario from a single layout definition.
+"""Generate a warehouse scenario from a single layout definition.
 
-Emits the Gazebo world, a matching occupancy grid for navigation, and the tag
-map. Keeping all three from one source avoids drift between the simulated
-geometry, the planner's map, and the poses the estimator expects.
+Emits the Gazebo world, a matching occupancy grid, and the tag map.
 """
 
 import argparse

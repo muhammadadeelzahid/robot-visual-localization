@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Generate tag36h11 textures and Gazebo models from a tag map.
 
-Each tag becomes a self-contained Gazebo model: a thin textured plane whose +z
-face carries the marker, sized to the tag's black-border edge length so the
-simulated geometry matches the tag map used by the estimator.
+Each tag is a textured plane whose +z face carries the marker, sized to the
+tag's black-border edge length.
 """
 
 import argparse

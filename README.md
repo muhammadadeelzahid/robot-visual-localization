@@ -47,7 +47,7 @@ Drive the robot manually from a second terminal:
 ./scripts/drive.sh
 ```
 
-Autonomous navigation (Nav2 following a waypoint route, localizing by AprilTags):
+Autonomous navigation:
 
 ```bash
 ros2 launch apriltag_localization_bringup nav.launch.py
@@ -58,9 +58,6 @@ Physical robot:
 ```bash
 ros2 launch apriltag_localization_bringup robot.launch.py camera:=usb
 ```
-
-Both entry points share the same detection, pose-estimation and fusion pipeline; only
-the image source and calibration differ.
 
 ## Camera calibration
 

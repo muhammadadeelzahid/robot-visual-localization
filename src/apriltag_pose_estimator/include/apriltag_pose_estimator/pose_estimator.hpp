@@ -59,9 +59,7 @@ struct CameraPoseEstimate
   Eigen::Matrix<double, 6, 6> covariance{Eigen::Matrix<double, 6, 6>::Identity()};
 };
 
-/// Axis-aligned limits a valid camera pose must satisfy. Used to reject the
-/// mirror solution of the planar-tag pose ambiguity, which places the camera
-/// outside the physical space.
+/// Axis-aligned limits a valid camera pose must satisfy.
 struct MapBounds
 {
   double x_limit{12.0};
@@ -89,9 +87,7 @@ public:
     const std::array<cv::Point2d, 4> & corners, double size,
     const CameraIntrinsics & intr) const;
 
-  /// Camera pose in the map frame. With one tag this composes the tag's map
-  /// pose with the single-tag solution; with several it runs one combined PnP
-  /// over all corners expressed in the map frame.
+  /// Camera pose in the map frame from one or more tag detections.
   CameraPoseEstimate estimate_camera_pose(
     const std::vector<DetectionInput> & detections, const TagMap & map,
     const CameraIntrinsics & intr) const;

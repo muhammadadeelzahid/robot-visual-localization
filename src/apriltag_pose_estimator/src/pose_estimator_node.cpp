@@ -57,7 +57,6 @@ public:
     bounds.z_max = declare_parameter<double>("bounds.z_max", 3.0);
     estimator_->set_bounds(bounds);
 
-    // Reject detections whose image quad is smaller than this (too far / oblique).
     min_tag_area_px_ = declare_parameter<double>("min_tag_area_px", 300.0);
 
     std::string error;

@@ -23,7 +23,7 @@ find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
-# Pure math + tag-map library (framework-free, unit-testable).
+# Pose estimation and tag-map library.
 add_library(pose_estimator_lib
   src/pose_estimator.cpp
   src/tag_map.cpp)

@@ -29,7 +29,7 @@ FX = FY = 554.254691
 CX, CY = 320.0, 240.0
 TAG_SIZE = 0.4
 
-# Tag pose in the map frame (matches the fixture): identity rotation at (0, 0, 2).
+# Tag pose in the map frame: identity rotation at (0, 0, 2).
 T_MAP_TAG = np.eye(4)
 T_MAP_TAG[:3, 3] = [0.0, 0.0, 2.0]
 

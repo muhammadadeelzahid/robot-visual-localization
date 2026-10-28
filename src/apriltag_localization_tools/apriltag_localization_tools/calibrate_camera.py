@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Calibrate a pinhole camera from checkerboard images.
 
-Writes intrinsics in the CameraInfo YAML layout used across the project, so the
-result drops straight into the hardware pipeline.
+Writes intrinsics in the CameraInfo YAML layout.
 """
 
 import argparse

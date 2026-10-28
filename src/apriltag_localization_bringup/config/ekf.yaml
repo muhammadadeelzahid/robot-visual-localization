@@ -1,6 +1,5 @@
-# Map-frame EKF. Fuses wheel-odometry velocities (continuous) with the absolute
-# AprilTag pose and publishes the map -> odom transform. The odom -> base_link
-# transform is provided by the drive controller.
+# Map-frame EKF. Fuses wheel-odometry velocities and the absolute AprilTag pose,
+# and publishes map -> odom.
 
 ekf_map:
   ros__parameters:
@@ -16,7 +15,7 @@ ekf_map:
     base_link_frame: base_footprint
     world_frame: map
 
-    # Wheel odometry: fuse planar body velocities only.
+    # Wheel odometry: planar body velocities.
     odom0: /odom
     odom0_config: [false, false, false,
                    false, false, false,
@@ -27,10 +26,9 @@ ekf_map:
     odom0_relative: false
     odom0_queue_size: 10
 
-    # Reject odometry twists that disagree strongly with the current estimate.
     odom0_twist_rejection_threshold: 5.0
 
-    # Absolute AprilTag pose: fuse planar position and yaw.
+    # AprilTag pose: planar position and yaw.
     pose0: /apriltag/pose
     pose0_config: [true,  true,  false,
                    false, false, true,
@@ -40,8 +38,6 @@ ekf_map:
     pose0_differential: false
     pose0_relative: false
     pose0_queue_size: 10
-    # Reject AprilTag poses whose Mahalanobis distance is too large (outliers,
-    # e.g. a flipped single-tag yaw estimate).
     pose0_rejection_threshold: 6.0
 
     process_noise_covariance: [0.050, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000,

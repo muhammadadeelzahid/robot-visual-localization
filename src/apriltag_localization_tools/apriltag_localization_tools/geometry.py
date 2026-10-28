@@ -1,4 +1,4 @@
-"""Small, dependency-free geometry helpers."""
+"""Geometry helpers."""
 
 import math
 

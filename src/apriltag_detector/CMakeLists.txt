@@ -19,7 +19,7 @@ find_package(image_transport REQUIRED)
 find_package(apriltag REQUIRED)
 find_package(OpenCV REQUIRED)
 
-# Detection library (framework-free, unit-testable).
+# Detection library.
 add_library(apriltag_detector_lib src/apriltag_detector.cpp)
 target_include_directories(apriltag_detector_lib PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
